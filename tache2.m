@@ -1,4 +1,4 @@
-%%%
+%%%%%%%
 clc;
 clear;
 close all ; 
@@ -44,14 +44,14 @@ end
 
 
 
-DSP_analytique  = (0.25*D +  (((Ts^3)*(pi*freq).^2)/16 ).*(sinc(freq*Ts/2)).^4 );    %% expression demontre :tache2 -> soutache4                       
+DSP_analytique  = 0.25*D +  (((Ts^3)*(pi*freq).^2)/16 ).*(sinc(freq*Ts/2)).^4 ;    %% expression demontre :tache2 -> soutache4                       
 %0.25*dirac(freq)
 
 
 
 %% la DSP à l aide de la fonction Mon_welch (DSP exp) 
 
-DSP_welch =   Mon_Welch(sl_t,Nfft,fe) .*Fse ; 
+DSP_welch =   Mon_Welch(sl_t,Nfft,fe) ; 
 
 
 
@@ -62,38 +62,9 @@ semilogy(freq,DSP_analytique ,'m')
 hold all
 semilogy(freq,DSP_welch,'r')
 legend('DSP analytique','DSP experimentale' )
-ylim([10e-20 max(DSP_analytique)]); 
+
 title('DSP de sl(t) ');
 xlabel('frequence');
 %% resultat : 
  %les courbes ne sont pas confondues , il faut multiplier my_welch par Fse 
 
-function y = Mon_Welch(x,NFFT,Fe)
- L = length(x); 
- N_samples = 100; 
- M = floor(L/N_samples);    %Nombre de TF à calculer
-
- %Recouvrement 
- Y = zeros(N_samples,M); 
- %fenetre = rectwin(N_samples);    %Fenetre
-    for i=1:M
-        for j=1:N_samples
-            
-            Y(i,j) = x(j +i);
-            
-        end
-
-    end  
-    TF = zeros(NFFT,M);
-    for i = 1:M 
-        TF(:,i) = fft(Y(:,i),NFFT); 
-    end    
-     
-   y = ones(NFFT,1); 
-    for i = 1:NFFT
-        y(i) = (sum(abs(TF(i,:)))^2)*1/M;  
-    end    
-
-  end 
-
- 

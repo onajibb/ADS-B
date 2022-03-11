@@ -12,6 +12,7 @@ Fse = T_s/T_e;
 P0 = [zeros(1,10) ones(1,10)]; 
 P1 = [ones(1,10) zeros(1,10)]; 
 n_bits = 1000; 
+nfft=256;
 bits_emis = randi([0 1], n_bits,1);
 Sb = randi([0 1],n_bits,1);
 p_conv = [0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5];
@@ -84,7 +85,7 @@ TEB = zeros(size(eb_n0));
         
 
     
-
+Mon_Welch(s_l,nfft,fe);
 
 %% Figures
 
